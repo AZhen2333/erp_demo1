@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#dg').datagrid({    
+		    url:'dep_list.action',    
+		    columns:[[    
+		        {field:'uuid',title:'部门编号',width:100},    
+		        {field:'name',title:'部门名称',width:100},    
+		        {field:'tele',title:'电话',width:100}    
+		    ]]    
+		}); 
+		
+	});
+	
+
+</script>
+</head>
+<body>
+<table id="dg"></table>
+
+</body>
+</html>

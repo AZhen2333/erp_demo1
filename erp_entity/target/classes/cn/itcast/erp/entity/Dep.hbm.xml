@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+	<!-- name:映射文件对应的持久化类的全类名 -->
+	<!-- table:映射文件对应的表名 -->
+	<class name="cn.itcast.erp.entity.Dep" table="dep">
+
+		<!-- <id></id>:主键 -->
+		<!-- name:持久化类主键名 -->
+		<!-- cloumn:对应的表的主键名，如果和持久化类的主键名一样可不填 -->
+		<id name="uuid">
+			<!--generator:主键生成策略 -->
+			<!-- <generator class="native"></generator> -->
+		</id>
+
+		<!--<property></property>:普通属性标签 -->
+		<!-- name:持久化类属性名 -->
+		<!-- cloumn:对应的表的列名，如果和持久化类的属性名一样可不填 -->
+		<property name="name"></property>
+		<property name="tele"></property>
+
+	</class>
+
+</hibernate-mapping>
