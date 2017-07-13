@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.itcast.erp.biz.impl.DepBiz;
+import cn.itcast.erp.biz.DepBiz;
 import cn.itcast.erp.entity.Dep;
 
 public class DepAction {
@@ -31,7 +31,6 @@ public class DepAction {
 	// 日志
 	private static final Logger log = LoggerFactory.getLogger(DepAction.class);
 
-	@SuppressWarnings("unused")
 	private void write(String jsonString) {
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("utf-8");
@@ -41,8 +40,19 @@ public class DepAction {
 		} catch (IOException e) {
 			log.error("列出所有的部门出错了:", e);
 		}
-
 	}
+	
+	//是否成功返回
+	public String ajaxRuturn(boolean success,String message){
+		Map map = new HashMap();
+		map.put("success", success);
+		map.put("message", message);
+		String jsonString = JSON.toJSONString(map);
+		return jsonString;
+	}
+	
+	
+	
 
 //	@SuppressWarnings("unused")
 //	public void list() {
@@ -52,7 +62,8 @@ public class DepAction {
 //		write(jsonString);
 //	}
 
-	@SuppressWarnings({"unchecked" })
+	
+	//条件、分页查询
 	public void listByPage() {
 		int firstResult = (page - 1) * rows;
 		List<Dep> list = depBiz.listByPage(dep, firstResult, rows);
@@ -64,6 +75,20 @@ public class DepAction {
 		String jsonString = JSON.toJSONString(map);
 		write(jsonString);
 	}
+	
+	//新增部门
+	public void add(){
+		try {
+			depBiz.add(dep);
+			//条用write进行回显，同时输出信息
+			write(ajaxRuturn(true,"添加成功"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			write(ajaxRuturn(false,"添加失败"));
+		}
+		
+	}
+	
 
 	public void setDepBiz(DepBiz depBiz) {
 		this.depBiz = depBiz;

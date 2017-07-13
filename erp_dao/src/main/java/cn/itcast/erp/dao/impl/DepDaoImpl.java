@@ -34,12 +34,12 @@ public class DepDaoImpl extends HibernateDaoSupport implements DepDao {
 	}
 
 	//条件查询
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Dep> findAll(Dep dep) {
-		DetachedCriteria criteria = getDetachedCriteria(dep);
-		return (List<Dep>) getHibernateTemplate().findByCriteria(criteria);
-	}
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public List<Dep> findAll(Dep dep) {
+//		DetachedCriteria criteria = getDetachedCriteria(dep);
+//		return (List<Dep>) getHibernateTemplate().findByCriteria(criteria);
+//	}
 	
 	//每页显示的数据查询
 	@SuppressWarnings("unchecked")
@@ -57,6 +57,12 @@ public class DepDaoImpl extends HibernateDaoSupport implements DepDao {
 		criteria.setProjection(Projections.rowCount());
 		List<Long> list = (List<Long>) getHibernateTemplate().findByCriteria(criteria);
 		return list.isEmpty()?0:list.get(0);
+	}
+
+	@Override
+	public void add(Dep dep) {
+		getHibernateTemplate().save(dep);
+		
 	}
 
 }

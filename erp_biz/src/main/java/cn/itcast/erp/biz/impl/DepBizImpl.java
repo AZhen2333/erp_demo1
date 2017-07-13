@@ -2,6 +2,7 @@ package cn.itcast.erp.biz.impl;
 
 import java.util.List;
 
+import cn.itcast.erp.biz.DepBiz;
 import cn.itcast.erp.dao.DepDao;
 import cn.itcast.erp.entity.Dep;
 
@@ -14,11 +15,11 @@ public class DepBizImpl implements DepBiz {
 	}
 
 
-	@Override
-	public List<Dep> findAll(Dep dep) {
-		
-		return depDao.findAll(dep);
-	}
+//	@Override
+//	public List<Dep> findAll(Dep dep) {
+//		
+//		return depDao.findAll(dep);
+//	}
 
 
 	@Override
@@ -30,6 +31,13 @@ public class DepBizImpl implements DepBiz {
 	@Override
 	public Long getTatalCount(Dep dep) {
 		return depDao.getTatalCount(dep);
+	}
+
+
+	@Override
+	public void add(Dep dep) {
+		depDao.add(dep);
+		
 	}
 	
 	

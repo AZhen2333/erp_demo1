@@ -15,7 +15,9 @@
 		<!-- cloumn:对应的表的主键名，如果和持久化类的主键名一样可不填 -->
 		<id name="uuid">
 			<!--generator:主键生成策略 -->
-			<!-- <generator class="native"></generator> -->
+			<generator class="org.hibernate.id.SequenceGenerator">
+				<param name="sequence">DEP_SEQ</param>
+			</generator>
 		</id>
 
 		<!--<property></property>:普通属性标签 -->
