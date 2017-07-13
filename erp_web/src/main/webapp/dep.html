@@ -10,13 +10,23 @@
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$('#dg').datagrid({    
+	/* $('#dg').datagrid({    
 		    url:'dep_list.action',    
 		    columns:[[    
 		        {field:'uuid',title:'部门编号',width:100},    
 		        {field:'name',title:'部门名称',width:100},    
 		        {field:'tele',title:'电话',width:100}    
-		    ]]    
+		    ]],
+		});  */
+
+		$('#dg').datagrid({    
+		    url:'dep_listByPage.action',    
+		    columns:[[    
+		        {field:'uuid',title:'部门编号',width:100},    
+		        {field:'name',title:'部门名称',width:100},    
+		        {field:'tele',title:'电话',width:100}    
+		    ]],
+		    pagination:'true'
 		}); 
 		
 	});
@@ -25,7 +35,12 @@
 </script>
 </head>
 <body>
-<table id="dg"></table>
+	<form id="">
+		部门名称：<input name="dep.name" />
+		部门电话：<input name="dep.tele" />
+		<button id="bu" type="button">查询</button>
+	</form>
+	<table id="dg"></table>
 
 </body>
 </html>
