@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop.xsd
 		">  
-	<bean id="depDao" class="cn.itcast.erp.dao.impl.DepDaoImpl" >
+	<bean id="depDao" class="cn.itcast.erp.dao.impl.DepDao" >
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 

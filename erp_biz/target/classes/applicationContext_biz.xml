@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop.xsd
 		">  
-	<bean id="depBiz" class="cn.itcast.erp.biz.impl.DepBizImpl">
+	<bean id="depBiz" class="cn.itcast.erp.biz.impl.DepBiz">
 		<property name="depDao" ref="depDao"></property>
 	</bean>
 

@@ -13,31 +13,30 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.itcast.erp.biz.IDepBiz;
-import cn.itcast.erp.biz.impl.DepBiz;
-import cn.itcast.erp.entity.Dep;
+import cn.itcast.erp.biz.IBaseBiz;
 
-public class DepAction extends BaseAction<Dep> {
+public class BaseAction<T> {
+
 	// bean
-	private IDepBiz depBiz;
+	private IBaseBiz baseBiz;
 	/*
 	 * 属性驱动
 	 */
-	private Dep dep;// 仅用于增删改的参数
-	private Dep dep1;// 参数1
-	private Dep dep2;// 参数2
+	private T t;// 仅用于增删改的参数
+	private T t1;// 参数1
+	private T t2;// 参数2
 	private Object param;// 参数3
 	private int page;// 当前页码
 	private int rows;// 每页显示的数据条数
-	private Long id;//uuid
-	
-	private static final Logger log = LoggerFactory.getLogger(DepAction.class);// 日志
+	private Long id;// uuid
+
+	private static final Logger log = LoggerFactory.getLogger(BaseAction.class);// 日志
 
 	// 条件、分页查询
 	public void listByPage() {
 		int firstResult = (page - 1) * rows;
-		List<Dep> list = depBiz.listByPage(dep1, dep2, param, firstResult, rows);
-		Long totalCunt = depBiz.getTatalCount(dep1, dep2, param);
+		List<T> list = baseBiz.listByPage(t1, t2, param, firstResult, rows);
+		Long totalCunt = baseBiz.getTatalCount(t1, t2, param);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", totalCunt);
 		map.put("rows", list);
@@ -48,7 +47,7 @@ public class DepAction extends BaseAction<Dep> {
 	// 新增部门
 	public void add() {
 		try {
-			depBiz.add(dep);
+			baseBiz.add(t);
 			// 条用write进行回显，同时输出是否成功信息
 			write(ajaxRuturn(true, "添加成功"));
 		} catch (Exception e) {
@@ -56,48 +55,43 @@ public class DepAction extends BaseAction<Dep> {
 			write(ajaxRuturn(false, "添加失败"));
 		}
 	}
-	
-	//删除部门
-	public void delete(){
+
+	// 删除部门
+	public void delete() {
 		try {
-			depBiz.delete(id);
+			baseBiz.delete(id);
 			write(ajaxRuturn(true, "删除成功"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			write(ajaxRuturn(false, "删除失败"));
 		}
-		
+
 	}
-	
-	
-	//根据id回显部门信息
-	public void getDepById(){
-		Dep dep=depBiz.getDepById(id);
-		String jsonString = JSON.toJSONString(dep);
-		//转成map格式
+
+	// 根据id回显部门信息
+	public void getTById() {
+		T t = (T) baseBiz.getDepById(id);
+		String jsonString = JSON.toJSONString(t);
+		// 转成map格式
 		Map<String, Object> map = JSON.parseObject(jsonString);
-		//创建新的map
-		Map<String, Object> newMap=new HashMap<String, Object>();
+		// 创建新的map
+		Map<String, Object> newMap = new HashMap<String, Object>();
 		for (String key : map.keySet()) {
-			newMap.put("dep."+key, map.get(key));
+			newMap.put("t." + key, map.get(key));
 		}
 		write(JSON.toJSONString(newMap));
 	}
-	
-	
-	
-	//修改部门
-	public void update(){
+
+	// 修改部门
+	public void update() {
 		try {
-			depBiz.update(dep);
+			baseBiz.update(t);
 			write(ajaxRuturn(true, "修改成功"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			write(ajaxRuturn(false, "修改失败"));
 		}
 	}
-	
-	
 
 	// 回显jsoStringn数据
 	public void write(String jsonString) {
@@ -121,9 +115,6 @@ public class DepAction extends BaseAction<Dep> {
 	}
 
 	// getter setter
-	public void setDepBiz(DepBiz depBiz) {
-		this.depBiz = depBiz;
-	}
 
 	public void setPage(int page) {
 		this.page = page;
@@ -133,31 +124,35 @@ public class DepAction extends BaseAction<Dep> {
 		this.rows = rows;
 	}
 
-	public Dep getDep() {
-		return dep;
+	public T getT() {
+		return t;
 	}
 
-	public void setDep(Dep dep) {
-		this.dep = dep;
+	public void setT(T t) {
+		this.t = t;
 	}
 
-	public Dep getDep1() {
-		return dep1;
+	public T getT1() {
+		return t1;
 	}
 
-	public void setDep1(Dep dep1) {
-		this.dep1 = dep1;
+	public void setT1(T t1) {
+		this.t1 = t1;
 	}
 
-	public Dep getDep2() {
-		return dep2;
+	public T getT2() {
+		return t2;
 	}
 
-	public void setDep2(Dep dep2) {
-		this.dep2 = dep2;
+	public void setT2(T t2) {
+		this.t2 = t2;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void setBaseBiz(IBaseBiz baseBiz) {
+		this.baseBiz = baseBiz;
 	}
 }
