@@ -23,7 +23,9 @@ public class DepAction {
 	 * 属性驱动
 	 */
 	// Dep
-	private Dep dep;
+	private Dep dep1;
+	private Dep dep2;
+	private Object param;
 	// 当前页码
 	private int page;
 	// 每页显示的数据条数
@@ -41,33 +43,31 @@ public class DepAction {
 			log.error("列出所有的部门出错了:", e);
 		}
 	}
-	
-	//是否成功返回
-	public String ajaxRuturn(boolean success,String message){
+
+	// 是否成功返回
+	@SuppressWarnings("unchecked")
+	public String ajaxRuturn(boolean success, String message) {
 		Map map = new HashMap();
 		map.put("success", success);
 		map.put("message", message);
 		String jsonString = JSON.toJSONString(map);
 		return jsonString;
 	}
-	
-	
-	
 
-//	@SuppressWarnings("unused")
-//	public void list() {
-//		List<Dep> list = depBiz.findAll(dep);
-//		// 转json
-//		String jsonString = JSON.toJSONString(list);
-//		write(jsonString);
-//	}
+	// @SuppressWarnings("unused")
+	// public void list() {
+	// List<Dep> list = depBiz.findAll(dep);
+	// // 转json
+	// String jsonString = JSON.toJSONString(list);
+	// write(jsonString);
+	// }
 
-	
-	//条件、分页查询
+	// 条件、分页查询
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void listByPage() {
 		int firstResult = (page - 1) * rows;
-		List<Dep> list = depBiz.listByPage(dep, firstResult, rows);
-		Long totalCunt = depBiz.getTatalCount(dep);
+		List<Dep> list = depBiz.listByPage(dep1, dep2, param, firstResult, rows);
+		Long totalCunt = depBiz.getTatalCount(dep1, dep2, param);
 		// 转json
 		Map map = new HashMap();
 		map.put("total", totalCunt);
@@ -75,43 +75,34 @@ public class DepAction {
 		String jsonString = JSON.toJSONString(map);
 		write(jsonString);
 	}
-	
-	//新增部门
-	public void add(){
+
+	// 新增部门
+	public void add() {
 		try {
-			depBiz.add(dep);
-			//条用write进行回显，同时输出信息
-			write(ajaxRuturn(true,"添加成功"));
+			depBiz.add(dep1);
+			// 条用write进行回显，同时输出信息
+			write(ajaxRuturn(true, "添加成功"));
 		} catch (Exception e) {
 			e.printStackTrace();
-			write(ajaxRuturn(false,"添加失败"));
+			write(ajaxRuturn(false, "添加失败"));
 		}
-		
+
 	}
-	
 
 	public void setDepBiz(DepBiz depBiz) {
 		this.depBiz = depBiz;
 	}
 
 	public Dep getDep() {
-		return dep;
+		return dep1;
 	}
 
-	public void setDep(Dep dep) {
-		this.dep = dep;
-	}
-
-	public int getPage() {
-		return page;
+	public void setDep(Dep dep1) {
+		this.dep1 = dep1;
 	}
 
 	public void setPage(int page) {
 		this.page = page;
-	}
-
-	public int getRows() {
-		return rows;
 	}
 
 	public void setRows(int rows) {
