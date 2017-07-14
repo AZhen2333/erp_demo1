@@ -13,8 +13,6 @@ import cn.itcast.erp.entity.Dep;
 
 public class DepDaoImpl extends HibernateDaoSupport implements DepDao {
 
-
-
 	private DetachedCriteria getDetachedCriteria(Dep dep1, Dep dep2, Object param) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Dep.class);
 		if (dep1 != null) {
@@ -29,36 +27,40 @@ public class DepDaoImpl extends HibernateDaoSupport implements DepDao {
 
 	}
 
-	//条件查询
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public List<Dep> findAll(Dep dep) {
-//		DetachedCriteria criteria = getDetachedCriteria(dep);
-//		return (List<Dep>) getHibernateTemplate().findByCriteria(criteria);
-//	}
-	
-	//每页显示的数据查询
+	// 条件查询
+	// @SuppressWarnings("unchecked")
+	// @Override
+	// public List<Dep> findAll(Dep dep) {
+	// DetachedCriteria criteria = getDetachedCriteria(dep);
+	// return (List<Dep>) getHibernateTemplate().findByCriteria(criteria);
+	// }
+
 	@SuppressWarnings("unchecked")
-	@Override
+	@Override // 每页显示的数据查询
 	public List<Dep> listByPage(Dep dep1, Dep dep2, Object param, int firstResult, int maxResults) {
-		DetachedCriteria criteria = getDetachedCriteria(dep1,dep2,param);
+		DetachedCriteria criteria = getDetachedCriteria(dep1, dep2, param);
 		return (List<Dep>) getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
 	}
 
-	//总条数查询
 	@SuppressWarnings("unchecked")
-	@Override
-	public Long getTatalCount(Dep dep1,Dep dep2,Object param) {
-		DetachedCriteria criteria = getDetachedCriteria(dep1,dep2,param);
+	@Override // 总条数查询
+	public Long getTatalCount(Dep dep1, Dep dep2, Object param) {
+		DetachedCriteria criteria = getDetachedCriteria(dep1, dep2, param);
 		criteria.setProjection(Projections.rowCount());
 		List<Long> list = (List<Long>) getHibernateTemplate().findByCriteria(criteria);
-		return list.isEmpty()?0:list.get(0);
+		return list.isEmpty() ? 0 : list.get(0);
 	}
 
-	@Override
-	public void add(Dep dep1) {
-		getHibernateTemplate().save(dep1);
-		
+	@Override // 新增部门
+	public void add(Dep dep) {
+		getHibernateTemplate().save(dep);
+
+	}
+
+	@Override//删除部门
+	public void delete(Long id) {
+		Dep dep = getHibernateTemplate().get(Dep.class,id);
+		getHibernateTemplate().delete(dep);
 	}
 
 }

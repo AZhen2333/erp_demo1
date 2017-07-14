@@ -22,6 +22,10 @@ public class Dep {
 	public void setTele(String tele) {
 		this.tele = tele;
 	}
+	@Override
+	public String toString() {
+		return "Dep [uuid=" + uuid + ", name=" + name + ", tele=" + tele + "]";
+	}
 	
 	
 	

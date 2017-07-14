@@ -8,6 +8,7 @@
 <script type="text/javascript" src="ui/jquery.min.js"></script>
 <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 	/* $('#dg').datagrid({    
@@ -18,39 +19,121 @@
 		        {field:'tele',title:'电话',width:100}    
 		    ]],
 		});  */
-
-		$('#dg').datagrid({    
+		
+		//列表显示
+		$('#grid').datagrid({    
 		    url:'dep_listByPage.action',    
 		    columns:[[    
 		        {field:'uuid',title:'部门编号',width:100},    
 		        {field:'name',title:'部门名称',width:100},    
-		        {field:'tele',title:'电话',width:100}    
+		        {field:'tele',title:'电话',width:100},  
+		        {field:'-',title:'操作',width:100,formatter: function(value,row,index){
+		        	
+		        	return ' <a href="javascript:void(0);" onclick="del(' + row.uuid + ')">删除</a>';
+		        	}
+		        }    
 		    ]],
 		    pagination:'true',
-		    
-	    	toolbar: [{
+		    toolbar: [{
 	    		iconCls: 'icon-add',
 	    		text:'增加',
-	    		handler: function(){alert('添加按钮')}
-	    	},'-',{
-	    		iconCls: 'icon-help',
-	    		handler: function(){alert('帮助按钮')}
+	    		handler: function(){
+	    			$('#editDlg').window('open');//打开添加窗口
+	    			}
 	    	}]
 
 		}); 
 		
+		//绑定点击事件（点击查询提交表单数据）
+		$('#btnSearch').bind('click',function(){
+			var submitData=$('#searchForm').serializeJSON();
+			$('#grid').datagrid('load',submitData)
+		})
+		
+		
+		//添加窗口
+		$('#editDlg').dialog({    
+		    title: '编辑部门',    
+		    width: 300,    
+		    height: 150,    
+		    closed: true,  //是否关闭状态  
+		    modal: true,//模式，是否在最前
+		    buttons:[{
+				text:'保存',
+				handler:function(){
+					var fromData=$('#editFrom').serializeJSON();
+					$.ajax({
+						  url: 'dep_add',
+						  data: fromData,
+						  dataType:'json',
+						  type:'post',
+						  success: function(rtn){
+							  /*
+							  title：在头部面板显示的标题文本。
+								msg：显示的消息文本。
+								icon：显示的图标图像。可用值有：error,question,info,warning。
+								fn: 在窗口关闭的时候触发该回调函数。 
+							  */
+							  $.messager.alert('提示',rtn.message,'info',function(){
+								  if(rtn.success){
+									  $('#grid').datagrid('reload');
+									  $('#editDlg').dialog('close');
+								  }
+							  })
+						  }
+						});
+				}
+			},{
+				text:'关闭',
+				handler:function(){$('#editDlg').window('close');//关闭添加窗口
+				}
+			}]
+		});    
 	});
 	
-
+//删除
+function del(uuid){
+	$.messager.confirm('确认','您确认想要删除记录吗？',function(yes){    
+	if(yes){
+			$.ajax({
+				url:'dep_delete?id=' + uuid,
+				//data:{id:uuid},
+				dataType:'json',//指服务返回的数据类型，把服务器返回的字符串转成json对象
+				type:'post',
+				success:function(rtn){
+					$.messager.alert('提示',rtn.message,'info',function(){
+						if(rtn.success){
+							//重载行。等同于'load'方法，但是它将保持在当前页。
+							//刷新表格
+							$('#grid').datagrid('reload');
+							//关闭窗口
+							$('#editDlg').dialog('close');
+						}
+					});
+				}
+			});
+		}
+	}); 
+} 
 </script>
 </head>
 <body>
-	<form id="">
+	<form id="searchForm">
 		部门名称：<input name="dep1.name" />
 		部门电话：<input name="dep1.tele" />
-		<button id="bu" type="button">查询</button>
+		<button id="btnSearch" type="button">查询</button>
 	</form>
-	<table id="dg"></table>
+	<div style="height: 2px"></div>
+	<table id="grid"></table>
+	<div id="editDlg" style="paaing:4px">
+		<form id="editFrom">
+			<input type="hidden" name="dep.uuid">
+			部门名称：<input name="dep.name" />
+			<div style="height:4px">
+			部门电话：<input name="dep.tele" />
+		</form>
+	</div>
+	
 
 </body>
 </html>
