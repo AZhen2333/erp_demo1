@@ -19,4 +19,10 @@ public interface DepBiz {
 
 	// 删除部门
 	public void delete(Long id);
+
+	// 修改部门
+	public void update(Dep dep);
+	
+	//根据id查找部门
+	public Dep getDepById(Long id);
 }

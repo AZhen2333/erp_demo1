@@ -35,4 +35,16 @@ public class DepBizImpl implements DepBiz {
 		depDao.delete(id);
 	}
 
+	@Override // 修改部门
+	public void update(Dep dep) {
+		depDao.update(dep);
+
+	}
+
+	@Override // 根据id查找部门
+	public Dep getDepById(Long id) {
+		return depDao.getDepById(id);
+
+	}
+
 }

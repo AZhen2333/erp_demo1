@@ -10,6 +10,7 @@
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
 <script type="text/javascript">
+var method="";
 	$(function(){
 	/* $('#dg').datagrid({    
 		    url:'dep_list.action',    
@@ -29,7 +30,9 @@
 		        {field:'tele',title:'电话',width:100},  
 		        {field:'-',title:'操作',width:100,formatter: function(value,row,index){
 		        	
-		        	return ' <a href="javascript:void(0);" onclick="del(' + row.uuid + ')">删除</a>';
+		        	var oper=' <a href="javascript:void(0);" onclick="edit(' + row.uuid + ')">修改</a> | ';
+		        	oper +=' <a href="javascript:void(0);" onclick="del(' + row.uuid + ')">删除</a>';
+		        		return oper;
 		        	}
 		        }    
 		    ]],
@@ -39,8 +42,11 @@
 	    		text:'增加',
 	    		handler: function(){
 	    			$('#editDlg').window('open');//打开添加窗口
+	    			$('#editFrom').from('clear');//打开添加窗口
+	    			method="add";
 	    			}
 	    	}]
+	    	
 
 		}); 
 		
@@ -63,7 +69,7 @@
 				handler:function(){
 					var fromData=$('#editFrom').serializeJSON();
 					$.ajax({
-						  url: 'dep_add',
+						  url: 'dep_'+method,
 						  data: fromData,
 						  dataType:'json',
 						  type:'post',
@@ -114,6 +120,17 @@ function del(uuid){
 			});
 		}
 	}); 
+} 
+
+
+
+
+//修改
+function edit(uuid){
+	$('#editFrom').form('clear');
+	$('#editDlg').window('open');//打开添加窗口
+	$('#editFrom').form('load','dep_getDepById?id='+uuid);
+	method="update";
 } 
 </script>
 </head>

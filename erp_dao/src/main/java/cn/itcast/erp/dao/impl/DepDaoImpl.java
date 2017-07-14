@@ -57,10 +57,21 @@ public class DepDaoImpl extends HibernateDaoSupport implements DepDao {
 
 	}
 
-	@Override//删除部门
+	@Override // 删除部门
 	public void delete(Long id) {
-		Dep dep = getHibernateTemplate().get(Dep.class,id);
+		Dep dep = getHibernateTemplate().get(Dep.class, id);
 		getHibernateTemplate().delete(dep);
+	}
+
+	@Override // 修改部门
+	public void update(Dep dep) {
+		getHibernateTemplate().update(dep);
+	}
+
+	@Override//根据id查找部门
+	public Dep getDepById(Long id) {
+		 return getHibernateTemplate().get(Dep.class, id);
+		
 	}
 
 }

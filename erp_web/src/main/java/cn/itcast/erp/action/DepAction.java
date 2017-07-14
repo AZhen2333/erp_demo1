@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import cn.itcast.erp.biz.DepBiz;
 import cn.itcast.erp.entity.Dep;
@@ -66,6 +67,34 @@ public class DepAction {
 			write(ajaxRuturn(false, "删除失败"));
 		}
 		
+	}
+	
+	
+	//根据id回显部门信息
+	public void getDepById(){
+		Dep dep=depBiz.getDepById(id);
+		String jsonString = JSON.toJSONString(dep);
+		//转成map格式
+		Map<String, Object> map = JSON.parseObject(jsonString);
+		//创建新的map
+		Map<String, Object> newMap=new HashMap<String, Object>();
+		for (String key : map.keySet()) {
+			newMap.put("dep."+key, map.get(key));
+		}
+		write(JSON.toJSONString(newMap));
+	}
+	
+	
+	
+	//修改部门
+	public void update(){
+		try {
+			depBiz.update(dep);
+			write(ajaxRuturn(true, "修改成功"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			write(ajaxRuturn(false, "修改失败"));
+		}
 	}
 	
 	
