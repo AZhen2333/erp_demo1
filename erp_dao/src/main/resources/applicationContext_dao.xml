@@ -15,6 +15,9 @@
 	<bean id="depDao" class="cn.itcast.erp.dao.impl.DepDao" >
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="empDao" class="cn.itcast.erp.dao.impl.EmpDao" >
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 	
 </beans>

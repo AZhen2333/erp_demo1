@@ -15,6 +15,9 @@
 	<bean id="depAction" class="cn.itcast.erp.action.DepAction" scope="prototype">
 		<property name="depBiz" ref="depBiz" ></property>
 	</bean>
+	<bean id="empAction" class="cn.itcast.erp.action.EmpAction" scope="prototype">
+		<property name="empBiz" ref="empBiz" ></property>
+	</bean>
 
 	
 </beans>

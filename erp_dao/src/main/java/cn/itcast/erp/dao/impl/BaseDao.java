@@ -21,7 +21,7 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
 		entityClass=(Class<T>) types[0];
 	}
 
-	public DetachedCriteria getDetachedCriteria(T dep1, T dep2, Object param) {
+	public DetachedCriteria getDetachedCriteria(T t1, T t2, Object param) {
 
 		return null;
 
