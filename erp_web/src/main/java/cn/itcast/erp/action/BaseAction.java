@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 
@@ -17,20 +16,16 @@ import cn.itcast.erp.biz.IBaseBiz;
 
 public class BaseAction<T> {
 
-	// bean
-	private IBaseBiz baseBiz;
-	/*
-	 * 属性驱动
-	 */
-	private T t;// 仅用于增删改的参数
-	private T t1;// 参数1
-	private T t2;// 参数2
-	private Object param;// 参数3
-	private int page;// 当前页码
-	private int rows;// 每页显示的数据条数
-	private Long id;// uuid
-
-	private static final Logger log = LoggerFactory.getLogger(BaseAction.class);// 日志
+private IBaseBiz<T> baseBiz;
+	
+	private T t1;//查询条件
+	private T t2;//查询条件
+	private Object param;//查询条件
+	private int page;//页码
+	private int rows;//每页的记录数
+	
+	private T t;//只接收新增和修改功能的参数
+	private Long id;//编号
 
 	// 条件、分页查询
 	public void listByPage() {
@@ -101,7 +96,7 @@ public class BaseAction<T> {
 		try {
 			response.getWriter().write(jsonString);
 		} catch (IOException e) {
-			log.error("列出所有的部门出错了:", e);
+			getloger().error("列出所有的部门出错了:", e);
 		}
 	}
 
@@ -152,7 +147,11 @@ public class BaseAction<T> {
 		this.id = id;
 	}
 
-	public void setBaseBiz(IBaseBiz baseBiz) {
+	public Logger getloger() {
+		return null;
+	}
+
+	public void setBaseBiz(IBaseBiz<T> baseBiz) {
 		this.baseBiz = baseBiz;
 	}
 }

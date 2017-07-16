@@ -15,6 +15,7 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@SuppressWarnings("unchecked")
 	public BaseDao() {
+		Class<?> childClass = this.getClass();
 		Type type = getClass().getGenericSuperclass();
 		ParameterizedType pType=(ParameterizedType) type;
 		Type[] types = pType.getActualTypeArguments();
@@ -31,7 +32,7 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	@Override // 每页显示的数据查询
 	public List<T> listByPage(T t1, T t2, Object param, int firstResult, int maxResults) {
 		DetachedCriteria criteria = getDetachedCriteria(t1, t2, param);
-		return (List<T>) getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
+		return (List<T>) this.getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
 	}
 
 	@SuppressWarnings("unchecked")
